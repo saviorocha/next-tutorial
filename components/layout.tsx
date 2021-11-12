@@ -11,7 +11,13 @@ export const siteTitle = "Next.js Sample Website";
  * https://nextjs.org/learn/basics/assets-metadata-css/layout-component
  * CSS Modules
  */
-export default function Layout({ children, home }) {
+export default function Layout({
+  children,
+  home,
+}: {
+  children: React.ReactNode;
+  home?: boolean;
+}) {
   return (
     <div className={styles.container}>
       <Head>

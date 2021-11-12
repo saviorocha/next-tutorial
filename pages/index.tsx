@@ -4,7 +4,8 @@ import utilStyles from "../components/utils.module.css";
 import { getSortedPostsData } from "../lib/posts";
 import Link from "next/link";
 import Date from "../components/date";
-
+import { GetStaticProps } from "next";
+import { AppProps } from "next/dist/shared/lib/router/router";
 /**
  * By returning allPostsData inside the props object in getStaticProps,
  * the blog posts will be passed to the Home component as a prop.
@@ -16,17 +17,16 @@ import Date from "../components/date";
  *
  * https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
  */
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   const allPostsData = getSortedPostsData();
   return {
     props: {
       allPostsData,
     },
   };
-}
+};
 
 export default function Home({ allPostsData }) {
-  console.log("allPostsData", allPostsData);
   return (
     <Layout home>
       <Head>
@@ -38,6 +38,7 @@ export default function Home({ allPostsData }) {
           (This is a sample website - you’ll be building a site like this on{" "}
           <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
         </p>
+        <small>Agora com TypeScript!</small>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
