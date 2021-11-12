@@ -3,36 +3,45 @@ import { getAllPostsIds, getPostData } from "../../lib/posts";
 import Head from "next/head";
 import Date from "../../components/date";
 import utilStyles from "../../components/utils.module.css";
+import { GetStaticProps, GetStaticPaths } from "next";
 /**
  * https://nextjs.org/learn/basics/dynamic-routes/implement-getstaticprops
  */
+
+interface PostPropsInterface {
+  postData: {
+    title: string;
+    date: string;
+    contentHtml: string;
+  };
+}
 
 /**
  * paths contains the array of known paths returned by getAllPostIds(),
  * which include the params defined by pages/posts/[id].js
  */
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getAllPostsIds();
   return {
     paths,
     fallback: false,
   };
-}
+};
 
 /**
  * The post page is now using the getPostData function in getStaticProps to
  * get the post data and return it as props.
  */
-export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const postData = await getPostData(params.id as string);
   return {
     props: {
       postData,
     },
   };
-}
+};
 
-export default function Post({ postData }) {
+const Post = ({ postData }: PostPropsInterface) => {
   return (
     <Layout>
       <Head>
@@ -47,4 +56,6 @@ export default function Post({ postData }) {
       </article>
     </Layout>
   );
-}
+};
+
+export default Post;
